@@ -27,6 +27,9 @@ out/
 build
 dist
 
+# Generated browser SDK copy (built during turbo build)
+apps/demo/public/dodo-checkout.js
+
 
 # Debug
 npm-debug.log*

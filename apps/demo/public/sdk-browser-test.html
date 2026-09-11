@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dodo Checkout SDK Browser Test</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        max-width: 640px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+      }
+
+      button {
+        margin: 0.25rem;
+        padding: 0.5rem 1rem;
+      }
+
+      #log {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        white-space: pre-wrap;
+        font-family: ui-monospace, monospace;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Standalone SDK Test</h1>
+    <p>Loads <code>/dodo-checkout.js</code> and exposes <code>window.DodoCheckout</code>.</p>
+
+    <div>
+      <button type="button" id="open-valid">Open valid product</button>
+      <button type="button" id="open-invalid">Open invalid product</button>
+      <button type="button" id="clear-log">Clear log</button>
+    </div>
+
+    <div id="log"></div>
+
+    <script src="/dodo-checkout.js"></script>
+    <script>
+      const logEl = document.getElementById("log");
+
+      function log(message) {
+        logEl.textContent += `[${new Date().toLocaleTimeString()}] ${message}\n`;
+      }
+
+      if (typeof window.DodoCheckout !== "object" || typeof window.DodoCheckout.open !== "function") {
+        log("ERROR: window.DodoCheckout.open is not available");
+      } else {
+        log("OK: window.DodoCheckout.open is available");
+      }
+
+      function openCheckout(productId) {
+        DodoCheckout.open({
+          productId,
+
+          onSuccess(data) {
+            log(`onSuccess: ${JSON.stringify(data)}`);
+          },
+
+          onClose(data) {
+            log(`onClose: ${JSON.stringify(data)}`);
+          },
+
+          onError(data) {
+            log(`onError: ${JSON.stringify(data)}`);
+          },
+        });
+      }
+
+      document.getElementById("open-valid").addEventListener("click", () => {
+        openCheckout("prod_123");
+      });
+
+      document.getElementById("open-invalid").addEventListener("click", () => {
+        openCheckout("");
+      });
+
+      document.getElementById("clear-log").addEventListener("click", () => {
+        logEl.textContent = "";
+      });
+    </script>
+  </body>
+</html>
