@@ -546,6 +546,76 @@ The demo bundles the SDK through Next.js, which inlines `NEXT_PUBLIC_*` variable
 
 ---
 
+## Browser SDK (script tag)
+
+The SDK also ships as a standalone browser bundle:
+
+```text
+packages/sdk/dist/dodo-checkout.js
+```
+
+After building the SDK, the file is also copied to `apps/demo/public/dodo-checkout.js` for local testing.
+
+```html
+<script src="https://YOUR_SDK_HOST/dodo-checkout.js"></script>
+<script>
+  DodoCheckout.open({
+    productId: "prod_123",
+    onSuccess(data) { console.log("success", data); },
+    onClose(data) { console.log("close", data); },
+    onError(data) { console.log("error", data); },
+  });
+</script>
+```
+
+The bundle exposes `window.DodoCheckout` with the same API as the module import.
+
+### Production browser bundle
+
+Build with the real checkout origin (no trailing slash):
+
+```bash
+DODO_CHECKOUT_ORIGIN=https://<deployed-checkout-origin> \
+BROWSER_BUILD=production \
+pnpm --filter @dodo-checkout/sdk build
+```
+
+`BROWSER_BUILD=production` fails the build if no origin is provided, preventing accidental localhost in production artifacts.
+
+Local test page: `http://localhost:3001/sdk-browser-test.html`
+
+---
+
+## Deployment (Vercel)
+
+Deploy **checkout first**, then **demo**.
+
+### Checkout (`apps/checkout`)
+
+| Setting | Value |
+|---------|-------|
+| Root Directory | `apps/checkout` |
+| Framework | Next.js |
+| Node.js | 24.x |
+| Install | `cd ../.. && pnpm install` |
+| Build | `cd ../.. && pnpm turbo run build --filter=checkout` |
+| Env vars | none |
+
+### Demo (`apps/demo`)
+
+| Setting | Value |
+|---------|-------|
+| Root Directory | `apps/demo` |
+| Framework | Next.js |
+| Node.js | 24.x |
+| Install | `cd ../.. && pnpm install` |
+| Build | `cd ../.. && pnpm turbo run build --filter=demo` |
+| Env vars (build time) | `NEXT_PUBLIC_DODO_CHECKOUT_ORIGIN`, `DODO_CHECKOUT_ORIGIN`, `BROWSER_BUILD=production` |
+
+Set both origin variables to the deployed checkout host (e.g. `https://checkout-xyz.vercel.app`) — no `/checkout`, no trailing slash.
+
+---
+
 ## Build and Quality Checks
 
 From the repository root:
