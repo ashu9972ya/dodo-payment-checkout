@@ -43,7 +43,7 @@ declare const process: {
 };
 
 const CHECKOUT_ORIGIN =
-    process.env.NEXT_PUBLIC_DODO_CHECKOUT_ORIGIN ?? "http://localhost:3000";
+    process.env.DODO_CHECKOUT_ORIGIN ?? "http://localhost:3000";
 const CHECKOUT_URL = `${CHECKOUT_ORIGIN}/checkout`;
 
 class DodoCheckoutSDK {
