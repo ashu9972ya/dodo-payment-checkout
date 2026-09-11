@@ -10,9 +10,9 @@ The project demonstrates how a merchant can integrate a remotely hosted checkout
 
 > Add the deployed URLs here before submission.
 
-**Demo:** `https://your-demo-url.com`
+**Demo:** `https://dodo-payment-checkout-demo.vercel.app`
 
-**Checkout:** `https://your-checkout-url.com`
+**Checkout:** `https://dodo-payment-checkout-checkout.vercel.app`
 
 ---
 
