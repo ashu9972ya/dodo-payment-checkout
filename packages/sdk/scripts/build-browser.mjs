@@ -19,6 +19,8 @@ if (process.env.BROWSER_BUILD === "production" && !origin) {
 
 mkdirSync(dirname(outFile), { recursive: true });
 
+const originDefineValue = origin ? JSON.stringify(origin) : "undefined";
+
 await esbuild.build({
   entryPoints: [join(packageRoot, "src", "index.ts")],
   bundle: true,
@@ -28,9 +30,8 @@ await esbuild.build({
   outfile: outFile,
   target: "es2020",
   define: {
-    "process.env.NEXT_PUBLIC_DODO_CHECKOUT_ORIGIN": origin
-      ? JSON.stringify(origin)
-      : "undefined",
+    "process.env.DODO_CHECKOUT_ORIGIN": originDefineValue,
+    "process.env.NEXT_PUBLIC_DODO_CHECKOUT_ORIGIN": originDefineValue,
   },
   footer: {
     js: "window.DodoCheckout = __DodoCheckoutBundle.DodoCheckout;",
