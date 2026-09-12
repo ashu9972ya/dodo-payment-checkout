@@ -8,8 +8,6 @@ The project demonstrates how a merchant can integrate a remotely hosted checkout
 
 ## Live Demo
 
-> Add the deployed URLs here before submission.
-
 **Demo:** `https://dodo-payment-checkout-demo.vercel.app`
 
 **Checkout:** `https://dodo-payment-checkout-checkout.vercel.app`
